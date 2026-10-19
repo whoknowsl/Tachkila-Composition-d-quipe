@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tachkila</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="grid grid-cols-6 grid-row-12 bg-blue-500 font-sans">
+    <nav
+      class="col-span-6 row-span-1 bg-[#1a2233] text-[#e5e7eb] flex flex-row justify-between items-center px-3 py-4"
+    >
+      <div class="flex flex-row items-center gap-4">
+        <img src="imgs/logo.jpeg" alt="logo" class="w-20" />
+        <h1 class="font-bold">TACHKILA</h1>
+      </div>
+      <ul class="flex flex-row gap-8 list-disc font-bold">
+        <li class="text-[#f59e0b]">GB</li>
+        <li class="text-[#3b82f6]">DEF</li>
+        <li class="text-[#22c55e]">MIL</li>
+        <li class="text-[#ef4444]">ATT</li>
+      </ul>
+      <div class="flex flex-row gap-4 items-center">
+        <p class="text-[#9ca3af]">Schema</p>
+        <button class="bg-[#1a2233] px-5 py-3 rounded-md font-bold border-1">4-4-2</button>
+      </div>
+    </nav>
+    <aside class="col-span-1 row-span-6 bg-green-400"></aside>
+    <main class="col-span-2 row-span-6 bg-red-500"></main>
+  </body>
+</html>
