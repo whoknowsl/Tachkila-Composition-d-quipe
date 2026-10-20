@@ -8,9 +8,9 @@
     <script src="script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body class="grid grid-cols-6 grid-row-12 bg-blue-500 font-sans">
+  <body class="bg-blue-500 font-sans">
     <nav
-      class="col-span-6 row-span-1 bg-[#1a2233] text-[#e5e7eb] flex flex-row justify-between items-center px-3 py-4"
+      class="col-span-4 row-span-1 bg-[#1a2233] text-[#e5e7eb] flex flex-row justify-between items-center px-3 py-4 border-b-1 border-b-[#1a2233]"
     >
       <div class="flex flex-row items-center gap-4">
         <img src="imgs/logo.jpeg" alt="logo" class="w-20" />
@@ -24,10 +24,60 @@
       </ul>
       <div class="flex flex-row gap-4 items-center">
         <p class="text-[#9ca3af]">Schema</p>
-        <button class="bg-[#1a2233] px-5 py-3 rounded-md font-bold border-1">4-4-2</button>
+        <button class="bg-[#1a2233] px-5 py-2 rounded-xl font-bold border-1">
+          4-4-2
+        </button>
       </div>
     </nav>
-    <aside class="col-span-1 row-span-6 bg-green-400"></aside>
-    <main class="col-span-2 row-span-6 bg-red-500"></main>
+    <aside
+      class="bg-[#1a2233] text-white font-bold border-r-1 border-r-[#1a2233] flex flex-col gap-6"
+    >
+      <button
+        class="bg-[#22c55e] px-5 py-5 inline-100 self-center my-3 rounded-xl text-xl"
+      >
+        + Ajouter un joueur
+      </button>
+      <div class="flex justify-between items-center px-2">
+        <h3>Effectif</h3>
+        <p class="bg-[#0f1625] text-[#9ca3af] px-3 py-2 rounded-xl">
+          1 joueur(s)
+        </p>
+      </div>
+
+      <p>
+        Clique sur joueur place pour voir sa case sur le terrain. pour modifier,
+        pour supprimer.
+      </p>
+      <div class="border-1 p-5 text-center">
+        <Adr>Aucun joueur pour le moment.</Adr>
+      </div>
+    </aside>
+    <main class="bg-[#151d2e]">
+      <div class="bg-whit-500" id="terrain"></div>
+    </main>
+    <form class="bg-[#1a2233] text-white fixed" id="addPlayerForm" action="">
+      <div>
+        <h2>Ajouter un joueur</h2>
+        <span>x</span>
+      </div>
+      <div>
+        <label for="nom">Nom complet</label>
+        <input type="text" placeholder="Ex. Ayoub Mansouri" />
+      </div>
+      <div>
+        <div class="label">Post</div>
+        <label for="post"></label><input type="radio" /><span>Gardien</span
+        ><label for="post"></label><input type="radio" /><span>Defenseur</span
+        ><label for="post"></label><input type="radio" /><span>Milieu</span
+        ><label for="post"></label><input type="radio" /><span>Attaquant</span>
+      </div>
+      <div>
+        <label for="number">Numero(1 a 99)</label><input type="text" />Ex. 7
+      </div>
+      <div>
+        <button>Annuler</button>
+        <button>Ajouter</button>
+      </div>
+    </form>
   </body>
 </html>
