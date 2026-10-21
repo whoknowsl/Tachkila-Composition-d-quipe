@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tachkila</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
+    <script src="script.js" type="module" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body class="grid grid-cols-6 grid-row-12 bg-blue-500 font-sans">
+  <body class="bg-blue-500 font-sans">
     <nav
-      class="col-span-6 row-span-1 bg-[#1a2233] text-[#e5e7eb] flex flex-row justify-between items-center px-3 py-4"
+      class="col-span-4 row-span-1 bg-[#1a2233] text-[#e5e7eb] flex flex-row justify-between items-center px-3 py-4 border-b-1 border-b-[#1a2233]"
     >
       <div class="flex flex-row items-center gap-4">
         <img src="imgs/logo.jpeg" alt="logo" class="w-20" />
@@ -24,10 +30,215 @@
       </ul>
       <div class="flex flex-row gap-4 items-center">
         <p class="text-[#9ca3af]">Schema</p>
-        <button class="bg-[#1a2233] px-5 py-3 rounded-md font-bold border-1">4-4-2</button>
+        <button class="bg-[#1a2233] px-5 py-2 rounded-xl font-bold border-1">
+          4-4-2
+        </button>
       </div>
     </nav>
-    <aside class="col-span-1 row-span-6 bg-green-400"></aside>
-    <main class="col-span-2 row-span-6 bg-red-500"></main>
+    <aside
+      class="bg-[#1a2233] text-white font-bold border-r-1 border-r-[#1a2233] flex flex-col gap-6"
+    >
+      <button
+        class="bg-[#22c55e] px-5 py-5 inline-100 self-center my-3 rounded-xl text-xl"
+        id="PopUpFormBtn"
+      >
+        + Ajouter un joueur
+      </button>
+      <div class="flex justify-between items-center px-2">
+        <h3>Effectif</h3>
+        <p class="bg-[#0f1625] text-[#9ca3af] px-3 py-2 rounded-xl">
+          1 joueur(s)
+        </p>
+      </div>
+      <ul id="playersList">
+        <li id="emptyList" class="">
+          Clique sur joueur place pour voir sa case sur le terrain. pour
+          modifier, pour supprimer.
+        </li>
+      </ul>
+      <div class="border-1 p-5 text-center">
+        <p>Aucun joueur pour le moment.</p>
+      </div>
+    </aside>
+    <main class="bg-[#151d2e]">
+      <div class="bg-whit-500" id="terrain">
+        <div
+          class="flex justify-center items-center gap-4 flex-col bg-[#1a2233]/60"
+          id="gardien"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >1</span
+          >
+          <p class="text-yellow-500">gb</p>
+          <p class="text-white">name</p>
+        </div>
+        <div
+          class="flex justify-center items-center gap-2 flex-col bg-[#1a2233]/60"
+          id="DefenseurGauch"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >1</span
+          >
+          <p class="text-yellow-500">gb</p>
+          <p class="text-white">name</p>
+        </div>
+        <div
+          class="flex justify-center items-center gap-2 flex-col bg-[#1a2233]/60"
+          id="DefenseurCenter1"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >1</span
+          >
+          <p class="text-yellow-500">gb</p>
+          <p class="text-white">name</p>
+        </div>
+        <div
+          class="flex justify-center items-center gap-2 flex-col bg-[#1a2233]/60"
+          id="DefenseurCenter2"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >1</span
+          >
+          <p class="text-yellow-500">gb</p>
+          <p class="text-white">name</p>
+        </div>
+        <div
+          class="flex justify-center items-center gap-2 flex-col bg-[#1a2233]/60"
+          id="DefenseurDroit"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >1</span
+          >
+          <p class="text-yellow-500">gb</p>
+          <p class="text-white">name</p>
+        </div>
+        <div
+          class="flex justify-center items-center gap-2 flex-col bg-[#1a2233]/60"
+          id="MilieuGauch"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >1</span
+          >
+          <p class="text-yellow-500">gb</p>
+          <p class="text-white">name</p>
+        </div>
+        <div
+          class="flex justify-center items-center gap-2 flex-col bg-[#1a2233]/60"
+          id="MilieuCenter1"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >1</span
+          >
+          <p class="text-yellow-500">gb</p>
+          <p class="text-white">name</p>
+        </div>
+        <div
+          class="flex justify-center items-center gap-2 flex-col bg-[#1a2233]/60"
+          id="MilieuCenter2"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >1</span
+          >
+          <p class="text-yellow-500">gb</p>
+          <p class="text-white">name</p>
+        </div>
+        <div
+          class="flex justify-center items-center gap-2 flex-col bg-[#1a2233]/60"
+          id="MilieuDroit"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >1</span
+          >
+          <p class="text-yellow-500">gb</p>
+          <p class="text-white">name</p>
+        </div>
+        <div
+          class="flex justify-center items-center gap-2 flex-col bg-[#1a2233]/60"
+          id="Attackeur1"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >1</span
+          >
+          <p class="text-yellow-500">gb</p>
+          <p class="text-white">name</p>
+        </div>
+        <div
+          class="flex justify-center items-center gap-2 flex-col bg-[#1a2233]/60"
+          id="Attackeur2"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >1</span
+          >
+          <p class="text-yellow-500">gb</p>
+          <p class="text-white">name</p>
+        </div>
+      </div>
+    </main>
+    <form
+      class="hidden bg-[#1a2233] text-white fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50 w-full max-w-[560px] p-5 rounded-xl flex flex-col gap-4"
+      action=""
+      id="newPlayerForm"
+    >
+      <div class="flex justify-between items-center">
+        <h3 class="text-2xl">Ajouter un joueur</h3>
+        <span class="px- bg-[#3b82f6]"
+          ><i id="removePopUpForm" class="fa-solid fa-xmark"></i
+        ></span>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="nom">Nom complet</label>
+        <input
+          class="bg-[#0f1625] p-3 rounded-2xl focus:outline-4 focus:outline-[#0f2347]"
+          type="text"
+          placeholder="Ex. Ayoub Mansouri"
+        />
+      </div>
+      <div class="grid grid-cols-2 grid-rows-2 gap-3">
+        <div class="label col-span-2">Post</div>
+        <label
+          class="flex items-center gap-2 bg-[#0f1625] p-3 rounded-2xl has-checked:bg-[#f59e0b]"
+          ><input type="radio" /><span>Gardien</span></label
+        >
+        <label
+          class="flex items-center gap-2 bg-[#0f1625] p-3 rounded-2xl has-checked:bg-[#3b82f6]"
+          ><input type="radio" /><span>Defenseur</span></label
+        >
+        <label
+          class="flex items-center gap-2 bg-[#0f1625] p-3 rounded-2xl has-checked:bg-[#22c55e]"
+          ><input type="radio" /><span>Milieu</span></label
+        >
+        <label
+          class="flex items-center gap-2 bg-[#0f1625] p-3 rounded-2xl has-checked:bg-[#ef4444]"
+          ><input type="radio" /><span>Attaquant</span></label
+        >
+      </div>
+      <div class="flex flex-col">
+        <label class="" for="number">Numero(1 a 99)</label
+        ><input
+          class="bg-[#0f1625] p-3 rounded-2xl focus:outline-4 focus:outline-[#0f2347]"
+          type="number"
+        />
+      </div>
+      <div class="flex gap-3 justify-end">
+        <button class="bg-[#0f1625] p-3 rounded-2xl">Annuler</button>
+        <button
+          id="submitBtn"
+          class="bg-[#22c55e] p-3 rounded-2xl hover:not-focus:bg-green-700"
+        >
+          Ajouter
+        </button>
+      </div>
+    </form>
   </body>
 </html>
