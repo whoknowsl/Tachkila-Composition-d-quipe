@@ -16,7 +16,7 @@
   </head>
   <body class="bg-blue-500 font-sans">
     <nav
-      class="col-span-4 row-span-1 bg-[#1a2233] text-[#e5e7eb] flex flex-row justify-between items-center px-3 py-4 border-b-1 border-b-[#1a2233]"
+      class="col-span-4 row-span-1 bg-[#1a1f33] text-[#e5e7eb] flex flex-row justify-between items-center px-3 py-4 border-b-1 border-b-[#1a2233]"
     >
       <div class="flex flex-row items-center gap-4">
         <img src="imgs/logo.jpeg" alt="logo" class="w-20" />
@@ -36,7 +36,7 @@
       </div>
     </nav>
     <aside
-      class="bg-[#1a2233] text-white font-bold border-r-1 border-r-[#1a2233] flex flex-col gap-6"
+      class="bg-[#1a2233] text-white font-bold border-r-1 border-r-[#1a2233] flex flex-col gap-6 w-auto"
     >
       <button
         class="bg-[#22c55e] px-5 py-5 inline-100 self-center my-3 rounded-xl text-xl"
@@ -50,14 +50,16 @@
           1 joueur(s)
         </p>
       </div>
-      <ul id="playersList">
-        <li id="emptyList" class="">
-          Clique sur joueur place pour voir sa case sur le terrain. pour
-          modifier, pour supprimer.
-        </li>
-      </ul>
-      <div class="border-1 p-5 text-center">
-        <p>Aucun joueur pour le moment.</p>
+      <div id="playersList" class="flex flex-col gap-2">
+        <ul>
+          <li>
+            Clique sur joueur place pour voir sa case sur le terrain. pour
+            modifier, pour supprimer.
+          </li>
+        </ul>
+        <div class="border-1 p-5 text-center">
+          <p>Aucun joueur pour le moment.</p>
+        </div>
       </div>
     </aside>
     <main class="bg-[#151d2e]">
@@ -197,41 +199,60 @@
         ></span>
       </div>
       <div class="flex flex-col gap-1">
-        <label for="nom">Nom complet</label>
+        <label for="nameOfPlayer">Nom complet</label>
         <input
+          id="nameOfPlayer"
           class="bg-[#0f1625] p-3 rounded-2xl focus:outline-4 focus:outline-[#0f2347]"
           type="text"
           placeholder="Ex. Ayoub Mansouri"
         />
+        <p class="errors p-2 text-red-500" id="errorName"></p>
       </div>
       <div class="grid grid-cols-2 grid-rows-2 gap-3">
         <div class="label col-span-2">Post</div>
         <label
           class="flex items-center gap-2 bg-[#0f1625] p-3 rounded-2xl has-checked:bg-[#f59e0b]"
-          ><input type="radio" /><span>Gardien</span></label
+          ><input name="pos" type="radio" value="GB" /><span
+            >Gardien</span
+          ></label
         >
         <label
           class="flex items-center gap-2 bg-[#0f1625] p-3 rounded-2xl has-checked:bg-[#3b82f6]"
-          ><input type="radio" /><span>Defenseur</span></label
+          ><input name="pos" type="radio" value="Def" /><span
+            >Defenseur</span
+          ></label
         >
         <label
           class="flex items-center gap-2 bg-[#0f1625] p-3 rounded-2xl has-checked:bg-[#22c55e]"
-          ><input type="radio" /><span>Milieu</span></label
+          ><input name="pos" type="radio" value="Mil" /><span
+            >Milieu</span
+          ></label
         >
         <label
           class="flex items-center gap-2 bg-[#0f1625] p-3 rounded-2xl has-checked:bg-[#ef4444]"
-          ><input type="radio" /><span>Attaquant</span></label
+          ><input name="pos" type="radio" value="ATT" /><span
+            >Attaquant</span
+          ></label
         >
       </div>
       <div class="flex flex-col">
         <label class="" for="number">Numero(1 a 99)</label
         ><input
+          id="numberOfPlayer"
           class="bg-[#0f1625] p-3 rounded-2xl focus:outline-4 focus:outline-[#0f2347]"
           type="number"
+          placeholder="Ex. 7"
         />
+        <p class="errors p-2 text-red-500" id="errorNumber"></p>
       </div>
       <div class="flex gap-3 justify-end">
-        <button class="bg-[#0f1625] p-3 rounded-2xl">Annuler</button>
+        <button
+          id="annuleBtn"
+          class="bg-[#0f1625] p-3 rounded-2xl"
+          type="button"
+        >
+          Annuler
+        </button>
         <button
           id="submitBtn"
           class="bg-[#22c55e] p-3 rounded-2xl hover:not-focus:bg-green-700"
