@@ -1,6 +1,6 @@
 import { positions } from "./data.js";
 
-const arr = [{ id: "1", nom: "youssef", number: "10", positions: "attack" }];
+const arr = [];
 const newPlayerForm = document.getElementById("newPlayerForm");
 const PopUpFormBtn = document.getElementById("PopUpFormBtn");
 const removePopUpFormBtn = document.getElementById("removePopUpForm");
@@ -12,15 +12,21 @@ const nameOfPlayerInput = document.getElementById("nameOfPlayer");
 const numberOfPlayerInput = document.getElementById("numberOfPlayer");
 const errorNumber = document.getElementById("errorNumber");
 const errors = document.querySelectorAll(".errors");
+
 //show the pop up form
 PopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.remove("hidden");
 });
+
 //cancel the pop up form
 removePopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.add("hidden");
   newPlayerForm.reset();
+  errors.forEach((error) => {
+    error.textContent = "";
+  });
 });
+
 //submit-btn
 newPlayerForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -38,14 +44,28 @@ newPlayerForm.addEventListener("submit", (e) => {
     console.log("it failed");
     return;
   }
+  addnewPlayer();
+});
 
+//annule form
+annuleFormBtn.addEventListener("click", (e) => {
+  newPlayerForm.reset();
+  errors.forEach((error) => {
+    error.textContent = "";
+  });
+  newPlayerForm.classList.add("hidden");
+});
+
+//add new player
+function addnewPlayer() {
   const nameOfPlayer = document.getElementById("nameOfPlayer").value;
   const numberOfPlayer = document.getElementById("numberOfPlayer").value;
   const positionOfPlayer = document.querySelector(
     "input[name='pos']:checked",
   ).value;
-  const newPlayer = {};
-  newPlayer.id = arr.length + 1;
+  const newPlayer = {
+    id: arr.length > 0 ? arr[arr.length - 1].id + 1 : 1,
+  };
   newPlayer.nom = nameOfPlayer;
   newPlayer.number = numberOfPlayer;
   newPlayer.positions = positionOfPlayer;
@@ -54,14 +74,10 @@ newPlayerForm.addEventListener("submit", (e) => {
   newPlayerForm.reset();
   newPlayerForm.classList.toggle("hidden");
   console.log(arr);
-});
-//annule form
-annuleFormBtn.addEventListener("click", () => {
-  newPlayerForm.reset();
-  newPlayerForm.classList.add("hidden");
-});
+}
 
-function creatingNewPlayerCard(r) {
+//creating new card
+function playerCard(r) {
   //creating the elements
   const li = document.createElement("li");
   const div = document.createElement("div");
@@ -109,7 +125,19 @@ function creatingNewPlayerCard(r) {
   span.textContent = r.number;
   h3.textContent = r.nom;
   p.textContent = r.positions;
+
+  modifierBtn.setAttribute("data-id", `${r.id}`);
+  deletBtn.setAttribute("data-id", `${r.id}`);
   
+  deletBtn.addEventListener("click", () => {
+    console.log(deletBtn.dataset.id);
+    deletfunc(deletBtn.dataset.id);
+  });
+  modifierBtn.addEventListener("click", () => {
+    newPlayerForm.classList.remove("hidden");
+    const modifierPlayer = modifierBtn.dataset.id;
+  });
+
   for (let i = 0; i < positions.length; i++) {
     const option = document.createElement("option");
     option.innerText = positions[i];
@@ -121,14 +149,33 @@ function creatingNewPlayerCard(r) {
   li.append(div, select);
   playersList.append(li);
 }
+
+// displayin the cards
 function renderingCard() {
   if (arr.length === 0) return;
-  playersList.innerHTML = "";
+  playersList.textContent = "";
   arr.forEach((player) => {
-    creatingNewPlayerCard(player);
+    playerCard(player);
   });
 }
 renderingCard();
+
+// modifier card
+function deletfunc(p) {
+  const player = arr.findIndex((player) => {
+    return player.id == p;
+  });
+  console.log("the index of player", player);
+  arr.splice(player, 1);
+  console.log("updated arr", arr);
+  playersList.textContent = "";
+  arr.forEach((player) => {
+    playerCard(player);
+  });
+}
+function modifier(p) {
+
+}
 // validation the inputs
 function validationName() {
   const palyerName = nameOfPlayerInput.value.trim();
@@ -147,7 +194,7 @@ function validateNumber() {
   const playerNum = numberOfPlayerInput.value.trim();
   const numbeRegex = /^[1-9][0-9]?$/;
   if (playerNum === "") {
-    errorNumber.textContent = "Please add Name for the player";
+    errorNumber.textContent = "Please add Number for the player";
   } else if (!numbeRegex.test(playerNum)) {
     errorNumber.textContent = "please enter a number from 1 to 99";
   } else {
