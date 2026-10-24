@@ -12,7 +12,7 @@ const nameOfPlayerInput = document.getElementById("nameOfPlayer");
 const numberOfPlayerInput = document.getElementById("numberOfPlayer");
 const errorNumber = document.getElementById("errorNumber");
 const errors = document.querySelectorAll(".errors");
-
+let editingId = null;
 //show the pop up form
 PopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.remove("hidden");
@@ -44,7 +44,22 @@ newPlayerForm.addEventListener("submit", (e) => {
     console.log("it failed");
     return;
   }
-  addnewPlayer();
+  //
+  if (editingId !== null) {
+    const player = arr.find((p) => p.id == editingId);
+    player.nom = nameOfPlayerInput.value;
+    player.number = numberOfPlayerInput.value;
+    editingId = null;
+  } else {
+    addnewPlayer();
+  }
+
+  // re-render
+  playersList.textContent = "";
+  arr.forEach((p) => playerCard(p));
+
+  newPlayerForm.reset();
+  newPlayerForm.classList.add("hidden");
 });
 
 //annule form
@@ -126,16 +141,22 @@ function playerCard(r) {
   h3.textContent = r.nom;
   p.textContent = r.positions;
 
-  modifierBtn.setAttribute("data-id", `${r.id}`);
-  deletBtn.setAttribute("data-id", `${r.id}`);
-  
+  modifierBtn.setAttribute("data-id", r.id);
+  deletBtn.setAttribute("data-id", r.id);
+
   deletBtn.addEventListener("click", () => {
     console.log(deletBtn.dataset.id);
     deletfunc(deletBtn.dataset.id);
   });
   modifierBtn.addEventListener("click", () => {
+    const player = arr.find((p) => {
+      return p.id == modifierBtn.dataset.id;
+    });
+    editingId = player.id;
     newPlayerForm.classList.remove("hidden");
-    const modifierPlayer = modifierBtn.dataset.id;
+
+    nameOfPlayerInput.value = player.nom;
+    numberOfPlayerInput.value = player.number;
   });
 
   for (let i = 0; i < positions.length; i++) {
@@ -173,9 +194,7 @@ function deletfunc(p) {
     playerCard(player);
   });
 }
-function modifier(p) {
 
-}
 // validation the inputs
 function validationName() {
   const palyerName = nameOfPlayerInput.value.trim();
