@@ -1,18 +1,20 @@
 import { positions } from "./data.js";
-
 const arr = [];
 const newPlayerForm = document.getElementById("newPlayerForm");
 const PopUpFormBtn = document.getElementById("PopUpFormBtn");
 const removePopUpFormBtn = document.getElementById("removePopUpForm");
 const annuleFormBtn = document.getElementById("annuleBtn");
 const playersList = document.getElementById("playersList");
-
 const errorName = document.getElementById("errorName");
 const nameOfPlayerInput = document.getElementById("nameOfPlayer");
 const numberOfPlayerInput = document.getElementById("numberOfPlayer");
 const errorNumber = document.getElementById("errorNumber");
+const formNoValidMesg = document.getElementById("formNoValidMesg");
+const formValidMsg = document.getElementById("formValidMsg");
 const errors = document.querySelectorAll(".errors");
+const terrain = document.querySelectorAll("#terrain > div");
 let editingId = null;
+
 //show the pop up form
 PopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.remove("hidden");
@@ -21,6 +23,7 @@ PopUpFormBtn.addEventListener("click", () => {
 //cancel the pop up form
 removePopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.add("hidden");
+  formValidMsg.classList.add("hidden");
   newPlayerForm.reset();
   errors.forEach((error) => {
     error.textContent = "";
@@ -32,6 +35,7 @@ newPlayerForm.addEventListener("submit", (e) => {
   e.preventDefault();
   validationName();
   validateNumber();
+
   let hasError = true;
   errors.forEach((error) => {
     if (error.textContent.trim() !== "") {
@@ -39,9 +43,11 @@ newPlayerForm.addEventListener("submit", (e) => {
     }
   });
   if (hasError) {
-    console.log("it worked");
+    formValidMsg.classList.remove("hidden");
+    formNoValidMesg.textContent = "";
   } else {
-    console.log("it failed");
+    formValidMsg.classList.add("hidden");
+    formNoValidMesg.textContent = "Faild";
     return;
   }
   //
@@ -60,6 +66,7 @@ newPlayerForm.addEventListener("submit", (e) => {
 
   newPlayerForm.reset();
   newPlayerForm.classList.add("hidden");
+  formValidMsg.classList.add("hidden");
 });
 
 //annule form
@@ -141,13 +148,16 @@ function playerCard(r) {
   h3.textContent = r.nom;
   p.textContent = r.positions;
 
+  //set attribute
   modifierBtn.setAttribute("data-id", r.id);
   deletBtn.setAttribute("data-id", r.id);
 
+  //add events to the deletbtn
   deletBtn.addEventListener("click", () => {
     console.log(deletBtn.dataset.id);
     deletfunc(deletBtn.dataset.id);
   });
+  //add events to the modifiertbtn
   modifierBtn.addEventListener("click", () => {
     const player = arr.find((p) => {
       return p.id == modifierBtn.dataset.id;
@@ -158,7 +168,31 @@ function playerCard(r) {
     nameOfPlayerInput.value = player.nom;
     numberOfPlayerInput.value = player.number;
   });
-
+  //add event changet to select
+  select.addEventListener("change", (e) => {
+    let positionOfThePlayer = e.target.value;
+    let res = "";
+    for (let i = 0; i < positionOfThePlayer.length; i++) {
+      if (positionOfThePlayer[i] == " ") {
+        continue;
+      } else {
+        res += positionOfThePlayer[i];
+      }
+    }
+    let position = document.getElementById(res);
+    position.innerHTML = `<div
+          class="flex justify-center items-center gap-4 flex-col bg-[#1a2233]/60"
+          id="GB-Gardien"
+        >
+          <span
+            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
+            >${r.number}</span
+          >
+          <p class="text-yellow-500">${r.positions}</p>
+          <p class="text-white">${r.nom}</p>
+        </div>`;
+  });
+  //add option to select
   for (let i = 0; i < positions.length; i++) {
     const option = document.createElement("option");
     option.innerText = positions[i];
@@ -205,6 +239,8 @@ function validationName() {
   } else if (palyerName.length < 3) {
     errorName.textContent = "Enter at leaste three caracter";
   } else {
+    formValidMsg.classList.add("hidden");
+    formNoValidMesg.textContent = "";
     errorName.textContent = "";
   }
   console.log(errorName.textContent);
@@ -217,6 +253,8 @@ function validateNumber() {
   } else if (!numbeRegex.test(playerNum)) {
     errorNumber.textContent = "please enter a number from 1 to 99";
   } else {
+    formValidMsg.classList.add("hidden");
+    formNoValidMesg.textContent = "";
     errorNumber.textContent = "";
   }
 }
