@@ -12,14 +12,13 @@ const errorNumber = document.getElementById("errorNumber");
 const formNoValidMesg = document.getElementById("formNoValidMesg");
 const formValidMsg = document.getElementById("formValidMsg");
 const errors = document.querySelectorAll(".errors");
-const terrain = document.querySelectorAll("#terrain > div");
+
 let editingId = null;
 
 //show the pop up form
 PopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.remove("hidden");
 });
-
 //cancel the pop up form
 removePopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.add("hidden");
@@ -36,13 +35,13 @@ newPlayerForm.addEventListener("submit", (e) => {
   validationName();
   validateNumber();
 
-  let hasError = true;
+  let hasError = false;
   errors.forEach((error) => {
     if (error.textContent.trim() !== "") {
-      hasError = false;
+      hasError = true;
     }
   });
-  if (hasError) {
+  if (!hasError) {
     formValidMsg.classList.remove("hidden");
     formNoValidMesg.textContent = "";
   } else {
@@ -53,8 +52,13 @@ newPlayerForm.addEventListener("submit", (e) => {
   //
   if (editingId !== null) {
     const player = arr.find((p) => p.id == editingId);
+    const positionOfPlayer = document.querySelector(
+      "input[name='pos']:checked",
+    );
     player.nom = nameOfPlayerInput.value;
     player.number = numberOfPlayerInput.value;
+    player.positions = positionOfPlayer.value;
+    player.positionColor = assignColor(positionOfPlayer.value);
     editingId = null;
   } else {
     addnewPlayer();
@@ -91,6 +95,7 @@ function addnewPlayer() {
   newPlayer.nom = nameOfPlayer;
   newPlayer.number = numberOfPlayer;
   newPlayer.positions = positionOfPlayer;
+  newPlayer.positionColor = assignColor(positionOfPlayer);
   arr.push(newPlayer);
   renderingCard();
   newPlayerForm.reset();
@@ -111,6 +116,7 @@ function playerCard(r) {
   const h3 = document.createElement("h3");
   const p = document.createElement("p");
   const select = document.createElement("select");
+
   //add class style by tailwind;
   btnDiv.classList.add("flex", "gap-4", "self-end");
   li.classList.add(
@@ -127,7 +133,7 @@ function playerCard(r) {
   span.classList.add(
     "border-1",
     "row-span-2",
-    "border-yellow-500",
+    `border-${r.positionColor}-500`,
     "p-1",
     "flex",
     "justify-center",
@@ -154,7 +160,6 @@ function playerCard(r) {
 
   //add events to the deletbtn
   deletBtn.addEventListener("click", () => {
-    console.log(deletBtn.dataset.id);
     deletfunc(deletBtn.dataset.id);
   });
   //add events to the modifiertbtn
@@ -164,10 +169,16 @@ function playerCard(r) {
     });
     editingId = player.id;
     newPlayerForm.classList.remove("hidden");
-
     nameOfPlayerInput.value = player.nom;
     numberOfPlayerInput.value = player.number;
+    const positionOfPlayer = document.querySelector(
+      `input[name='pos'][value= '${player.positions}']`,
+    );
+    if (positionOfPlayer) {
+      positionOfPlayer.checked = true;
+    }
   });
+
   //add event changet to select
   select.addEventListener("change", (e) => {
     let positionOfThePlayer = e.target.value;
@@ -180,9 +191,10 @@ function playerCard(r) {
       }
     }
     let position = document.getElementById(res);
+
     position.innerHTML = `<div
           class="flex justify-center items-center gap-4 flex-col bg-[#1a2233]/60"
-          id="GB-Gardien"
+          id="${res}"
         >
           <span
             class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-[#f59e0b] text-yellow-500"
@@ -191,7 +203,9 @@ function playerCard(r) {
           <p class="text-yellow-500">${r.positions}</p>
           <p class="text-white">${r.nom}</p>
         </div>`;
+    position.reset();
   });
+
   //add option to select
   for (let i = 0; i < positions.length; i++) {
     const option = document.createElement("option");
@@ -257,4 +271,17 @@ function validateNumber() {
     formNoValidMesg.textContent = "";
     errorNumber.textContent = "";
   }
+}
+function assignColor(value) {
+  let color = "";
+  if (value == "GB") {
+    color = "yellow";
+  } else if (value == "Def") {
+    color = "blue";
+  } else if (value == "Mil") {
+    color = "green";
+  } else if (value == "ATT") {
+    color = "red";
+  }
+  return color;
 }
