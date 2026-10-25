@@ -44,19 +44,17 @@
       >
         + Ajouter un joueur
       </button>
-      <div class="flex justify-between items-center px-2">
+      <div id="totalNumPlayers" class="flex justify-between items-center px-2">
         <h3>Effectif</h3>
         <p class="bg-[#0f1625] text-[#9ca3af] px-3 py-2 rounded-xl">
-          1 joueur(s)
+          0 joueur(s)
         </p>
       </div>
-      <div id="playersList" class="flex flex-col gap-2">
-        <ul>
-          <li>
-            Clique sur joueur place pour voir sa case sur le terrain. pour
-            modifier, pour supprimer.
-          </li>
-        </ul>
+      <li>
+        Clique sur joueur place pour voir sa case sur le terrain. pour modifier,
+        pour supprimer.
+      </li>
+      <div id="playersList" class="flex flex-col gap-2 overflow-auto">
         <div class="border-1 p-5 text-center">
           <p>Aucun joueur pour le moment.</p>
         </div>
