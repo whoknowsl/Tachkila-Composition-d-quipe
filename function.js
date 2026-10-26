@@ -1,14 +1,22 @@
 import { positions, players } from "./data.js";
 import {
   newPlayerForm,
-  totalNumberOfPlayers,
+  PopUpFormBtn,
+  removePopUpFormBtn,
+  annuleFormBtn,
+  playersList,
+  errorName,
   nameOfPlayerInput,
   numberOfPlayerInput,
-  errorName,
   errorNumber,
-} from "./script.js";
+  formNoValidMesg,
+  formValidMsg,
+  errors,
+  totalNumberOfPlayers,
+  positionFealde,
+} from "./domElements.js";
 export const state = { editingId: null };
-
+console.log(positionFealde);
 //add new player
 export function addNewPlayer() {
   const nameOfPlayer = document.getElementById("nameOfPlayer").value;
@@ -23,13 +31,15 @@ export function addNewPlayer() {
   newPlayer.number = numberOfPlayer;
   newPlayer.positions = positionOfPlayer;
   newPlayer.positionColor = assignColor(positionOfPlayer);
-  newPlayer.cuurentPosition = "Sur le banc";
+  newPlayer.cuurentPosition = "";
+  newPlayer.isPlaying = false;
   players.push(newPlayer);
   renderingCard();
   newPlayerForm.reset();
   newPlayerForm.classList.toggle("hidden");
 }
 
+//creating new card
 export function playerCard(player) {
   //creating the elements
   const li = document.createElement("li");
@@ -100,34 +110,84 @@ export function playerCard(player) {
   //add event changet to select
   select.addEventListener("change", (e) => {
     let positionOfThePlayer = e.target.value;
-    let res = "";
-    for (let i = 0; i < positionOfThePlayer.length; i++) {
-      if (positionOfThePlayer[i] == " ") {
-        continue;
-      } else {
-        res += positionOfThePlayer[i];
-      }
+    //remove the spaces from the position of target
+    let res = removeSpaces(positionOfThePlayer);
+    let oldPosition = player.cuurentPosition;
+
+    //the new place already has another player: refuse
+    if (res != "Surlebanc" && isPositionTaken(res, player.id)) {
+      alert("This position is already taken by another player.");
+      renderingCard(); //rebuild the select with the old value
+      return;
     }
-    let position = document.getElementById(res);
-    position.innerHTML = `<div
-          class="flex justify-center items-center gap-4 flex-col bg-[#1a2233]/60"
-          id="${res}"
-        >
-          <span
-            class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-${player.positionColor}-500 text-${player.positionColor}-500"
-            >${player.number}</span
-          >
-          <p class="text-${player.positionColor}-500">${player.positions}</p>
-          <p class="text-white">${player.nom}</p>
-        </div>`;
+    //1. remove him from the old place
+    if (oldPosition != "") {
+      clearSlot(oldPosition);
+    }
+    //2. save the new place and put him there
+    player.cuurentPosition = res;
+    if (res == "Surlebanc") {
+      player.isPlaying = false;
+    } else {
+      player.isPlaying = true;
+      fillSlot(player);
+    }
+
+    //3. rebuild the cards so the other selects disable the taken places
+    renderingCard();
   });
 
   //add option to select
-  for (let i = 0; i < positions.length; i++) {
-    const option = document.createElement("option");
-    option.innerText = positions[i];
-    select.append(option);
+  if (player.positions == "ATT") {
+    for (let i = 0; i < positions.length; i++) {
+      if (
+        positions[i] == "Sur le banc" ||
+        positions[i] == "BU - Buteur 1" ||
+        positions[i] == "BU - Buteur 2"
+      ) {
+        const option = document.createElement("option");
+        option.innerText = positions[i];
+        select.append(option);
+      }
+    }
+  } else if (player.positions == "Mil") {
+    for (let i = 0; i < positions.length; i++) {
+      if (
+        positions[i] == "Sur le banc" ||
+        positions[i] == "MD - Miliue droit" ||
+        positions[i] == "MC - Miliue central 2" ||
+        positions[i] == "MC - Miliue central 1" ||
+        positions[i] == "MG - Milieu gauche"
+      ) {
+        const option = document.createElement("option");
+        option.innerText = positions[i];
+        select.append(option);
+      }
+    }
+  } else if (player.positions == "Def") {
+    for (let i = 0; i < positions.length; i++) {
+      if (
+        positions[i] == "Sur le banc" ||
+        positions[i] == "DD - Defenseur droit" ||
+        positions[i] == "DC - Defenseur central 2" ||
+        positions[i] == "DC - Defenseur central 1" ||
+        positions[i] == "DG - Defenseur gauche"
+      ) {
+        const option = document.createElement("option");
+        option.innerText = positions[i];
+        select.append(option);
+      }
+    }
+  } else if (player.positions == "GB") {
+    for (let i = 0; i < positions.length; i++) {
+      if (positions[i] == "Sur le banc" || positions[i] == "GB - Gardien") {
+        const option = document.createElement("option");
+        option.innerText = positions[i];
+        select.append(option);
+      }
+    }
   }
+
   infoPlayer.append(h3, p);
   btnDiv.append(modifierBtn, deletBtn);
   div.append(span, infoPlayer, btnDiv);
@@ -148,7 +208,10 @@ export function deletfunc(p) {
   const player = players.findIndex((player) => {
     return player.id == p;
   });
-  console.log("the index of player", player);
+  if (player == -1) return;
+  if (players[player].isPlaying) {
+    clearSlot(players[player].cuurentPosition);
+  }
   players.splice(player, 1);
   totalNumberOfPlayers.textContent = `${players.length} joueur(s)`;
   playersList.textContent = "";
@@ -228,4 +291,38 @@ function modifierTheplayer(player) {
     positionOfPlayer.checked = true;
   }
 }
-const bench  = "Sur le Banc"
+function removeSpaces(text) {
+  let res = "";
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] == " ") {
+      continue;
+    } else {
+      res += text[i];
+    }
+  }
+  return res;
+}
+function isPositionTaken(position, playerId) {
+  let taken = false;
+  for (let i = 0; i < players.length; i++) {
+    if (players[i].cuurentPosition == position && players[i].id != playerId) {
+      taken = true;
+    }
+  }
+  return taken;
+}
+function fillSlot(player) {
+  const slot = document.getElementById(player.cuurentPosition);
+  if (slot == null) return;
+  slot.dataset.active = "true";
+  slot.innerHTML = `
+    <span class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-${player.positionColor}-500 text-${player.positionColor}-500">${player.number}</span>
+    <p class="text-${player.positionColor}-500">${player.positions}</p>
+    <p class="text-white">${player.nom}</p>`;
+}
+function clearSlot(position) {
+  const slot = document.getElementById(position);
+  if (slot == null) return;
+  slot.innerHTML = "";
+  slot.dataset.active = "false";
+}

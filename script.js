@@ -8,22 +8,22 @@ import {
   updateExistingPlayer,
   state,
 } from "./function.js";
-
-export const newPlayerForm = document.getElementById("newPlayerForm");
-const PopUpFormBtn = document.getElementById("PopUpFormBtn");
-const removePopUpFormBtn = document.getElementById("removePopUpForm");
-const annuleFormBtn = document.getElementById("annuleBtn");
-const playersList = document.getElementById("playersList");
-export const errorName = document.getElementById("errorName");
-export const nameOfPlayerInput = document.getElementById("nameOfPlayer");
-export const numberOfPlayerInput = document.getElementById("numberOfPlayer");
-export const errorNumber = document.getElementById("errorNumber");
-const formNoValidMesg = document.getElementById("formNoValidMesg");
-const formValidMsg = document.getElementById("formValidMsg");
-const errors = document.querySelectorAll(".errors");
-export const totalNumberOfPlayers = document.querySelector(
-  "#totalNumPlayers  p",
-);
+import {
+  newPlayerForm,
+  PopUpFormBtn,
+  removePopUpFormBtn,
+  annuleFormBtn,
+  playersList,
+  errorName,
+  nameOfPlayerInput,
+  numberOfPlayerInput,
+  errorNumber,
+  formNoValidMesg,
+  formValidMsg,
+  errors,
+  totalNumberOfPlayers,
+  positionFealde,
+} from "./domElements.js";
 //show the pop up form
 PopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.remove("hidden");
@@ -72,6 +72,7 @@ newPlayerForm.addEventListener("submit", (e) => {
   newPlayerForm.reset();
   newPlayerForm.classList.add("hidden");
   formValidMsg.classList.add("hidden");
+  console.log(players);
 });
 
 //annule form
@@ -83,8 +84,6 @@ annuleFormBtn.addEventListener("click", (e) => {
   newPlayerForm.classList.add("hidden");
 });
 
-
-//creating new card
 // displayin the cards
 renderingCard();
 // modifier card

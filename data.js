@@ -17,37 +17,45 @@ const players = [
     id: 1,
     nom: "Kylian Mbappé",
     number: "9",
-    positions: "Forward",
+    positions: "ATT",
     positionColor: "red",
+    isPlaying: false,
   },
   {
     id: 2,
     nom: "Kevin De Bruyne",
     number: "17",
-    positions: "Midfielder",
+    positions: "Mil",
     positionColor: "green",
+    isPlaying: false,
   },
   {
     id: 3,
     nom: "Virgil van Dijk",
     number: "4",
-    positions: "Defender",
+    positions: "Def",
     positionColor: "blue",
+    isPlaying: false,
   },
   {
     id: 4,
     nom: "Alisson Becker",
     number: "1",
-    positions: "Goalkeeper",
+    positions: "GB",
     positionColor: "yellow",
+    isPlaying: false,
   },
   {
     id: 5,
     nom: "Achraf Hakimi",
     number: "2",
-    positions: "Defender",
+    positions: "Def",
     positionColor: "blue",
+    isPlaying: false,
   },
 ];
-
+localStorage.setItem("players", JSON.stringify(positions));
+localStorage.setItem("positions", JSON.stringify(positions));
+const storedPosition = localStorage.getItem("positions");
+console.log(JSON.parse(storedPosition));
 export { positions, players };
