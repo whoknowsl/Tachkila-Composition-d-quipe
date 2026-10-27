@@ -84,7 +84,4 @@ annuleFormBtn.addEventListener("click", (e) => {
   newPlayerForm.classList.add("hidden");
 });
 
-// displayin the cards
 renderingCard();
-// modifier card
-// validation the inputs

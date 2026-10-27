@@ -31,7 +31,7 @@ export function addNewPlayer() {
   newPlayer.number = numberOfPlayer;
   newPlayer.positions = positionOfPlayer;
   newPlayer.positionColor = assignColor(positionOfPlayer);
-  newPlayer.cuurentPosition = "";
+  newPlayer.cuurentPosition = "Surlebanc";
   newPlayer.isPlaying = false;
   players.push(newPlayer);
   renderingCard();
@@ -65,7 +65,7 @@ export function playerCard(player) {
     "w-auto",
     "gap-4",
   );
-  hr.classList.add("border-2", `border-red-500"`);
+  hr.classList.add("border-2", `border-${player.positionColor}-500`);
   div.classList.add("grid", "grid-cols-[25%_60%_10%]");
   span.classList.add(
     "border-1",
@@ -119,6 +119,10 @@ export function playerCard(player) {
       alert("This position is already taken by another player.");
       renderingCard(); //rebuild the select with the old value
       return;
+    }
+    //1. remove him from the old place (only if he was on the field)
+    if (player.isPlaying) {
+      clearSlot(oldPosition);
     }
     //1. remove him from the old place
     if (oldPosition != "") {
@@ -187,12 +191,21 @@ export function playerCard(player) {
       }
     }
   }
-
-  infoPlayer.append(h3, p);
-  btnDiv.append(modifierBtn, deletBtn);
-  div.append(span, infoPlayer, btnDiv);
-  li.append(hr, div, select);
-  playersList.append(li);
+  for (let i = 0; i < select.options.length; i++) {
+    const option = select.options[i];
+    const optionId = removeSpaces(option.value);
+    if (optionId == player.cuurentPosition) {
+      option.selected = true;
+    }
+    if (optionId != "Surlebanc" && isPositionTaken(optionId, player.id)) {
+      option.disabled = true;
+    }
+    infoPlayer.append(h3, p);
+    btnDiv.append(modifierBtn, deletBtn);
+    div.append(span, infoPlayer, btnDiv);
+    li.append(hr, div, select);
+    playersList.append(li);
+  }
 }
 
 export function renderingCard() {
@@ -279,7 +292,7 @@ export function updateExistingPlayer(id) {
   state.editingId = null;
 }
 
-function modifierTheplayer(player) {
+export function modifierTheplayer(player) {
   state.editingId = player.id;
   newPlayerForm.classList.remove("hidden");
   nameOfPlayerInput.value = player.nom;
@@ -291,7 +304,8 @@ function modifierTheplayer(player) {
     positionOfPlayer.checked = true;
   }
 }
-function removeSpaces(text) {
+
+export function removeSpaces(text) {
   let res = "";
   for (let i = 0; i < text.length; i++) {
     if (text[i] == " ") {
@@ -302,7 +316,8 @@ function removeSpaces(text) {
   }
   return res;
 }
-function isPositionTaken(position, playerId) {
+
+export function isPositionTaken(position, playerId) {
   let taken = false;
   for (let i = 0; i < players.length; i++) {
     if (players[i].cuurentPosition == position && players[i].id != playerId) {
@@ -311,7 +326,8 @@ function isPositionTaken(position, playerId) {
   }
   return taken;
 }
-function fillSlot(player) {
+
+export function fillSlot(player) {
   const slot = document.getElementById(player.cuurentPosition);
   if (slot == null) return;
   slot.dataset.active = "true";
@@ -320,7 +336,8 @@ function fillSlot(player) {
     <p class="text-${player.positionColor}-500">${player.positions}</p>
     <p class="text-white">${player.nom}</p>`;
 }
-function clearSlot(position) {
+
+export function clearSlot(position) {
   const slot = document.getElementById(position);
   if (slot == null) return;
   slot.innerHTML = "";
