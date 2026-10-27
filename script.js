@@ -9,7 +9,7 @@ import {
   modifierTheplayer,
   state,
   fillSlot,
-  updatefieldount,
+  updateFieldCount,
 } from "./function.js";
 import {
   newPlayerForm,
@@ -92,11 +92,11 @@ annuleFormBtn.addEventListener("click", (e) => {
 refresh();
 players.forEach((player) => {
   if (player.isPlaying && player.cuurentPosition !== "Surlebanc") {
-    fillSlot(player); // This re-renders them onto the visual terrain
+    fillSlot(player);
   }
 });
-updatefieldount();
 renderingCard();
+updateFieldCount();
 menuBurger.addEventListener("click", () => {
   MenuPhone.classList.toggle("hidden");
 });
