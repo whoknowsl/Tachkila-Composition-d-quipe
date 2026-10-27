@@ -377,12 +377,12 @@ export function clearSlot(position) {
         </div>`;
   slot.dataset.active = "false";
 }
-export function updatefieldount() {
+export function updatefieldCount() {
   const savedTotal = localStorage.getItem("totalActivePlayer");
   const totalActivePlayer = players.filter((player) => player.isPlaying).length;
   localStorage.setItem("totalActivePlayer", totalActivePlayer);
   localStorage.setItem("totalActivePlayer", JSON.stringify(totalActivePlayer));
-  numberOfPlayerInTheField.textContent = `the total number of the player is ${totalActivePlayer}`;
+  numberOfPlayerInTheField.textContent = `the total number of the player is ${savedTotal}`;
 }
 function showToast(message) {
   const toast = document.createElement("div");
