@@ -5,7 +5,7 @@ import {
   refresh,
   refreshLocalStorage,
 } from "./data.js";
-refreshLocalStorage();
+
 import {
   newPlayerForm,
   PopUpFormBtn,
@@ -117,27 +117,21 @@ export function playerCard(player) {
     modifierTheplayer(player);
   });
 
-  //add event changet to select
   select.addEventListener("change", (e) => {
     let positionOfThePlayer = e.target.value;
-    //remove the spaces from the position of target
+
     let res = removeSpaces(positionOfThePlayer);
     let oldPosition = player.cuurentPosition;
 
-    //the new place already has another player: refuse
     if (res != "Surlebanc" && isPositionTaken(res, player.id)) {
-      renderingCard(); //rebuild the select with the old value
+      renderingCard();
       return;
     }
-    //1. remove him from the old place (only if he was on the field)
+
     if (player.isPlaying) {
       clearSlot(oldPosition);
     }
-    //1. remove him from the old place
-    if (oldPosition != "") {
-      clearSlot(oldPosition);
-    }
-    //2. save the new place and put him there
+
     player.cuurentPosition = res;
     if (res == "Surlebanc") {
       player.isPlaying = false;
@@ -145,10 +139,8 @@ export function playerCard(player) {
       player.isPlaying = true;
       fillSlot(player);
     }
-    //3. rebuild the cards so the other selects disable the taken places
-
     refreshLocalStorage();
-    updatefieldount();
+    updateFieldCount();
     renderingCard();
   });
 
@@ -240,6 +232,8 @@ export function deletfunc(p) {
   }
   players.splice(playerIndx, 1);
   refreshLocalStorage();
+  updateFieldCount();
+  renderingCard();
   totalNumberOfPlayers.textContent = `${players.length} joueur(s)`;
   playersList.textContent = "";
   players.forEach((player) => {
@@ -377,12 +371,9 @@ export function clearSlot(position) {
         </div>`;
   slot.dataset.active = "false";
 }
-export function updatefieldCount() {
-  const savedTotal = localStorage.getItem("totalActivePlayer");
+export function updateFieldCount() {
   const totalActivePlayer = players.filter((player) => player.isPlaying).length;
-  localStorage.setItem("totalActivePlayer", totalActivePlayer);
-  localStorage.setItem("totalActivePlayer", JSON.stringify(totalActivePlayer));
-  numberOfPlayerInTheField.textContent = `the total number of the player is ${savedTotal}`;
+  numberOfPlayerInTheField.textContent = `the total number of the player is ${totalActivePlayer}`;
 }
 function showToast(message) {
   const toast = document.createElement("div");
