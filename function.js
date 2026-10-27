@@ -46,6 +46,7 @@ export function addNewPlayer() {
   renderingCard();
   newPlayerForm.reset();
   newPlayerForm.classList.toggle("hidden");
+  showToast("New player added successfully!");
 }
 
 //creating new card
@@ -308,6 +309,7 @@ export function updateExistingPlayer() {
   newPlayerForm.reset();
   newPlayerForm.classList.add("hidden");
   formValidMsg.classList.add("hidden");
+  showToast("Player updated successfully!");
 }
 
 export function modifierTheplayer(player) {
@@ -380,5 +382,16 @@ export function updatefieldount() {
   const totalActivePlayer = players.filter((player) => player.isPlaying).length;
   localStorage.setItem("totalActivePlayer", totalActivePlayer);
   localStorage.setItem("totalActivePlayer", JSON.stringify(totalActivePlayer));
-  numberOfPlayerInTheField.textContent = `the totla number of the player is ${totalActivePlayer}`;
+  numberOfPlayerInTheField.textContent = `the total number of the player is ${totalActivePlayer}`;
+}
+function showToast(message) {
+  const toast = document.createElement("div");
+  toast.className =
+    "fixed bottom-5 right-5 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg";
+  toast.textContent = message;
+  document.body.append(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
 }

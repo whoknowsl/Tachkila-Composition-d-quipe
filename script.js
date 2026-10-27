@@ -28,6 +28,7 @@ import {
   positionFealde,
   numberOfPlayerInTheField,
   menuBurger,
+  menuList,
 } from "./domElements.js";
 //show the pop up form
 PopUpFormBtn.addEventListener("click", () => {
@@ -96,6 +97,6 @@ players.forEach((player) => {
 });
 updatefieldount();
 renderingCard();
-menuBurger.addEventListener("click",()=>{
-  
-})
+menuBurger.addEventListener("click", () => {
+  MenuPhone.classList.toggle("hidden");
+});
