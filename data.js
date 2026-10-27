@@ -12,5 +12,25 @@ const positions = [
   "BU - Buteur 1",
   "BU - Buteur 2",
 ];
+let players = [];
+const playersKey = "players";
 
-export { positions };
+function refreshLocalStorage() {
+  localStorage.setItem(playersKey, JSON.stringify(players));
+}
+
+function refresh() {
+  const savedplayers = localStorage.getItem(playersKey);
+  if (savedplayers) {
+    const prased = JSON.parse(savedplayers);
+    players.length = 0;
+    players.push(...prased);
+  } else {
+    refreshLocalStorage();
+  }
+  players = savedplayers ? JSON.parse(localStorage.getItem(playersKey)) : [];
+  console.log(savedplayers);
+}
+refresh();
+
+export { positions, players, playersKey, refreshLocalStorage, refresh };

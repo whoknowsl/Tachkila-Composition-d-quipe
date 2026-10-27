@@ -4,7 +4,8 @@ Application web interactive qui permet à l'entraîneur d'**Atlas FC** de gérer
 
 - 🌐 **Site en ligne (Vercel)** : https://VOTRE-PROJET.vercel.app
 - 📦 **Dépôt GitHub** : https://github.com/VOTRE-COMPTE/tachkila
-- 🗓️ **Planification des tâches** : _lien vers le tableau (GitHub Projects / jira / Notion)_
+- 🎨 **Maquette / présentation (Canva)** : https://canva.link/4lty8g0d8ryuv3b
+- 🗓️ **Planification des tâches** : _lien vers le tableau (GitHub Projects / Jira / Notion)_
 
 ---
 
@@ -21,58 +22,63 @@ _Ajoutez ici une capture d'écran de l'application :_
 ## Fonctionnalités
 
 ### Gestion de l'effectif
+
 - Ajouter un joueur depuis une modale (nom complet, poste, numéro). Il arrive sur le **banc**.
 - Modifier un joueur dans la modale préremplie. Si son poste change alors qu'il est sur le terrain, il retourne sur le banc.
 - Supprimer un joueur après confirmation. Sa position redevient **Libre**.
 - Compteurs automatiques : nombre de joueurs et « Joueurs placés : x / 11 ».
 
 ### Terrain
+
 - Grille **CSS Grid native** de 12 colonnes × 9 lignes, écrite en HTML et placée en CSS (`grid-column`, `grid-row`).
 - 11 positions du 4-4-2 : chaque position occupe 2 cases, celle du gardien 2 colonnes × 3 lignes.
 - Code couleur des postes : **GB** jaune, **DEF** bleu, **MIL** vert, **ATT** rouge.
 - État des positions : **Libre** ou **Occupée** (numéro et nom du joueur affichés).
 
 ### Assignation
+
 - Un `select` sur chaque carte permet de choisir la position du joueur.
 - Règles : la position doit correspondre au poste du joueur et être libre (un gardien ne peut pas jouer en attaque).
 - Option « Sur le banc » pour libérer la position.
 - La carte d'un joueur placé devient pâle.
 
 ### Formulaire et retours utilisateur
+
 - Validation en temps réel avec **regex** et messages d'erreur sous chaque champ.
 - Fermeture de la modale avec ×, Annuler, Échap ou clic sur le fond (un clic dans la fenêtre ne ferme pas la modale).
 - Messages de succès ou d'erreur qui disparaissent après 3 secondes.
 
 ### Sauvegarde
+
 - L'effectif et la composition sont conservés après actualisation grâce à **localStorage**.
 
 ---
 
 ## Règles de validation
 
-| Champ  | Règle | Regex |
-|--------|-------|-------|
+| Champ  | Règle                                              | Regex                       |
+| ------ | -------------------------------------------------- | --------------------------- |
 | Nom    | Obligatoire, lettres uniquement, 3 à 30 caractères | `/^[A-Za-zÀ-ÿ\s'-]{3,30}$/` |
-| Poste  | Obligatoire (GB, DEF, MIL ou ATT) | – |
-| Numéro | Obligatoire, de 1 à 99, **unique** dans l'effectif | `/^([1-9]\|[1-9][0-9])$/` |
+| Poste  | Obligatoire (GB, DEF, MIL ou ATT)                  | –                           |
+| Numéro | Obligatoire, de 1 à 99, **unique** dans l'effectif | `/^([1-9]\|[1-9][0-9])$/`   |
 
 ---
 
 ## Positions du 4-4-2
 
-| `data-position` | Poste | Description |
-|-----------------|-------|-------------|
-| `GB`  | GB  | Gardien |
-| `DG`  | DEF | Défenseur gauche |
-| `DC1` | DEF | Défenseur central 1 |
-| `DC2` | DEF | Défenseur central 2 |
-| `DD`  | DEF | Défenseur droit |
-| `MG`  | MIL | Milieu gauche |
-| `MC1` | MIL | Milieu central 1 |
-| `MC2` | MIL | Milieu central 2 |
-| `MD`  | MIL | Milieu droit |
-| `BU1` | ATT | Buteur 1 |
-| `BU2` | ATT | Buteur 2 |
+| `data-position` | Poste | Description         |
+| --------------- | ----- | ------------------- |
+| `GB`            | GB    | Gardien             |
+| `DG`            | DEF   | Défenseur gauche    |
+| `DC1`           | DEF   | Défenseur central 1 |
+| `DC2`           | DEF   | Défenseur central 2 |
+| `DD`            | DEF   | Défenseur droit     |
+| `MG`            | MIL   | Milieu gauche       |
+| `MC1`           | MIL   | Milieu central 1    |
+| `MC2`           | MIL   | Milieu central 2    |
+| `MD`            | MIL   | Milieu droit        |
+| `BU1`           | ATT   | Buteur 1            |
+| `BU2`           | ATT   | Buteur 2            |
 
 ---
 
@@ -101,6 +107,7 @@ Les joueurs sont stockés dans un tableau d'objets, synchronisé avec `localStor
 - **localStorage** pour la persistance
 - **Git / GitHub** pour le suivi de version
 - **Vercel** pour l'hébergement
+- **Canva** pour la maquette et la présentation
 
 ---
 
@@ -159,12 +166,12 @@ Chaque `git push` sur la branche `main` redéploie automatiquement le site.
 
 ## Responsive
 
-| Écran | Largeur |
-|-------|---------|
-| Grand écran d'ordinateur | à partir de 1280 px |
+| Écran                    | Largeur              |
+| ------------------------ | -------------------- |
+| Grand écran d'ordinateur | à partir de 1280 px  |
 | Petit écran d'ordinateur | de 1024 px à 1279 px |
-| Tablette | de 768 px à 1023 px |
-| Mobile | jusqu'à 767 px |
+| Tablette                 | de 768 px à 1023 px  |
+| Mobile                   | jusqu'à 767 px       |
 
 ---
 
@@ -181,27 +188,18 @@ Chaque `git push` sur la branche `main` redéploie automatiquement le site.
 
 ## Planification
 
-| Jour | Date | Objectifs |
-|------|------|-----------|
-| 1 | Lundi 19/10 | Dépôt Git, planification, structure HTML / Tailwind (header, aside, terrain, modale) |
-| 2 | Mardi 20/10 | Terrain en CSS Grid (12 × 9), ouverture et fermeture de la modale |
-| 3 | Mercredi 21/10 | Validation regex, ajout d'un joueur, liste colorée, premier déploiement Vercel |
-| 4 | Jeudi 22/10 | Assignation avec le select, affichage dans la case, carte pâle, retour sur le banc, compteurs |
-| 5 | Vendredi 23/10 | Suppression avec confirmation, modification avec modale préremplie |
-| 6 | Lundi 26/10 | Messages (3 s), localStorage, responsive, tests des cas d'erreur |
-| 7 | Mardi 27/10 | Bonus, README, livraison finale sur Git et Vercel |
-
----
-
-## Bonus
-
-- [ ] Clic sur la carte d'un joueur placé : sa case clignote
-- [ ] Drag & drop d'une carte vers une position du terrain (règle des postes respectée)
-- [ ] Bouton « Placer automatiquement » (première position libre du poste)
-- [ ] Filtre de la liste des joueurs par poste
+| Jour | Date           | Objectifs                                                                                     |
+| ---- | -------------- | --------------------------------------------------------------------------------------------- |
+| 1    | Lundi 19/10    | Dépôt Git, planification, structure HTML / Tailwind (header, aside, terrain, modale)          |
+| 2    | Mardi 20/10    | Terrain en CSS Grid (12 × 9), ouverture et fermeture de la modale                             |
+| 3    | Mercredi 21/10 | Validation regex, ajout d'un joueur, liste colorée, premier déploiement Vercel                |
+| 4    | Jeudi 22/10    | Assignation avec le select, affichage dans la case, carte pâle, retour sur le banc, compteurs |
+| 5    | Vendredi 23/10 | Suppression avec confirmation, modification avec modale préremplie                            |
+| 6    | Lundi 26/10    | Messages (3 s), localStorage, responsive, tests des cas d'erreur                              |
+| 7    | Mardi 27/10    | README, livraison finale sur Git et Vercel                                                    |
 
 ---
 
 ## Auteur
 
-**Votre nom** – Brief Atlas FC – Octobre 2026
+**Soufiane Boushaba** – Brief Atlas FC – Octobre 2026
