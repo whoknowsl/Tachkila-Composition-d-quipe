@@ -27,6 +27,7 @@ import {
   totalNumberOfPlayers,
   positionFealde,
   numberOfPlayerInTheField,
+  menuBurger,
 } from "./domElements.js";
 //show the pop up form
 PopUpFormBtn.addEventListener("click", () => {
@@ -95,3 +96,6 @@ players.forEach((player) => {
 });
 updatefieldount();
 renderingCard();
+menuBurger.addEventListener("click",()=>{
+  
+})

@@ -17,3 +17,4 @@ export const totalNumberOfPlayers = document.querySelector(
   "#totalNumPlayers  p",
 );
 export const positionFealde = document.querySelectorAll("#terrain div");
+export const menuBurger = document.getElementById("menuToggleBtn");
