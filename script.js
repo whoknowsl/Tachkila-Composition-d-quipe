@@ -1,4 +1,4 @@
-import { positions, players } from "./data.js";
+import { positions, players, refreshLocalStorage, refresh } from "./data.js";
 import {
   addNewPlayer,
   playerCard,
@@ -6,6 +6,7 @@ import {
   validationName,
   validateNumber,
   updateExistingPlayer,
+  modifierTheplayer,
   state,
 } from "./function.js";
 import {
@@ -62,7 +63,7 @@ newPlayerForm.addEventListener("submit", (e) => {
   }
 
   if (state.editingId !== null) {
-    updateExistingPlayer(state.editingId);
+    updateExistingPlayer();
   } else {
     addNewPlayer();
   }
@@ -73,7 +74,6 @@ newPlayerForm.addEventListener("submit", (e) => {
   newPlayerForm.reset();
   newPlayerForm.classList.add("hidden");
   formValidMsg.classList.add("hidden");
-  console.log(players);
 });
 
 //annule form
@@ -84,5 +84,10 @@ annuleFormBtn.addEventListener("click", (e) => {
   });
   newPlayerForm.classList.add("hidden");
 });
-
+refresh();
+players.forEach((player) => {
+  if (player.isPlaying && player.cuurentPosition !== "Surlebanc") {
+    fillSlot(player); // This re-renders them onto the visual terrain
+  }
+});
 renderingCard();

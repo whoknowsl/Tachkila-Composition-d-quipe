@@ -1,4 +1,11 @@
-import { positions, players } from "./data.js";
+import {
+  positions,
+  players,
+  playersKey,
+  refresh,
+  refreshLocalStorage,
+} from "./data.js";
+refreshLocalStorage();
 import {
   newPlayerForm,
   PopUpFormBtn,
@@ -34,6 +41,7 @@ export function addNewPlayer() {
   newPlayer.cuurentPosition = "Surlebanc";
   newPlayer.isPlaying = false;
   players.push(newPlayer);
+  localStorage.setItem(playersKey, JSON.stringify(players));
   renderingCard();
   newPlayerForm.reset();
   newPlayerForm.classList.toggle("hidden");
@@ -102,7 +110,7 @@ export function playerCard(player) {
   //add events to the modifiertbtn
   modifierBtn.addEventListener("click", () => {
     const player = players.find((p) => {
-      return p.id == modifierBtn.dataset.id;
+      return p.id == Number(modifierBtn.dataset.id);
     });
     modifierTheplayer(player);
   });
@@ -138,6 +146,7 @@ export function playerCard(player) {
     }
 
     //3. rebuild the cards so the other selects disable the taken places
+    refreshLocalStorage();
     renderingCard();
   });
 
@@ -218,6 +227,7 @@ export function renderingCard() {
 }
 
 export function deletfunc(p) {
+  p = Number(p);
   const player = players.findIndex((player) => {
     return player.id == p;
   });
@@ -226,6 +236,7 @@ export function deletfunc(p) {
     clearSlot(players[player].cuurentPosition);
   }
   players.splice(player, 1);
+  refresh();
   totalNumberOfPlayers.textContent = `${players.length} joueur(s)`;
   playersList.textContent = "";
   players.forEach((player) => {
@@ -281,19 +292,25 @@ export function assignColor(value) {
   return "gray";
 }
 
-export function updateExistingPlayer(id) {
-  const player = players.find((p) => p.id == id);
+export function updateExistingPlayer() {
+  const targetId = Number(state.editingId);
+  const updatingIndex = players.findIndex((p) => p.id === state.editingId);
+
   const positionOfPlayer = document.querySelector("input[name='pos']:checked");
-  player.nom = nameOfPlayerInput.value;
-  player.number = numberOfPlayerInput.value;
-  player.positions = positionOfPlayer.value;
-  player.positionColor = assignColor(positionOfPlayer.value);
+  players[updatingIndex].nom = nameOfPlayerInput.value;
+  players[updatingIndex].number = numberOfPlayerInput.value;
+  players[updatingIndex].positions = positionOfPlayer.value;
+  players[updatingIndex].positionColor = assignColor(positionOfPlayer.value);
+  refreshLocalStorage();
   state.editingId = null;
+  newPlayerForm.reset();
+  newPlayerForm.classList.add("hidden");
+  formValidMsg.classList.add("hidden");
 }
 
 export function modifierTheplayer(player) {
   state.editingId = player.id;
-  newPlayerForm.classList.remove("hidden");
+
   nameOfPlayerInput.value = player.nom;
   numberOfPlayerInput.value = player.number;
   const positionOfPlayer = document.querySelector(
@@ -302,6 +319,7 @@ export function modifierTheplayer(player) {
   if (positionOfPlayer) {
     positionOfPlayer.checked = true;
   }
+  newPlayerForm.classList.remove("hidden");
 }
 
 export function removeSpaces(text) {

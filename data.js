@@ -12,7 +12,7 @@ const positions = [
   "BU - Buteur 1",
   "BU - Buteur 2",
 ];
-const players = [
+let players = [
   {
     id: 1,
     nom: "Kylian Mbappé",
@@ -54,8 +54,14 @@ const players = [
     isPlaying: false,
   },
 ];
-localStorage.setItem("players", JSON.stringify(positions));
-localStorage.setItem("positions", JSON.stringify(positions));
-const storedPosition = localStorage.getItem("positions");
-console.log(JSON.parse(storedPosition));
-export { positions, players };
+const playersKey = "players";
+function refresh() {
+  const savedplayers = localStorage.getItem(playersKey);
+  players = savedplayers ? JSON.parse(localStorage.getItem(playersKey)) : [];
+  console.log(savedplayers);
+}
+refresh();
+function refreshLocalStorage() {
+  localStorage.setItem(players, JSON.stringify(players));
+}
+export { positions, players, playersKey, refreshLocalStorage, refresh };
