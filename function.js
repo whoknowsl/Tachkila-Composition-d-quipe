@@ -262,24 +262,23 @@ export function validateNumber() {
     errorNumber.textContent = "";
   }
   players.forEach((player) => {
-    if (player.number == playerNum) {
+    if (player.number == playerNum && player.id !== state.editingId) {
       errorNumber.textContent = "this number is alerdya taken";
     }
   });
 }
 
 export function assignColor(value) {
-  let color = "";
   if (value == "GB") {
-    color = "yellow";
+    return "yellow";
   } else if (value == "Def") {
-    color = "blue";
+    return "blue";
   } else if (value == "Mil") {
-    color = "green";
+    return "green";
   } else if (value == "ATT") {
-    color = "red";
+    return "red";
   }
-  return color;
+  return "gray";
 }
 
 export function updateExistingPlayer(id) {
@@ -317,7 +316,7 @@ export function removeSpaces(text) {
   return res;
 }
 
-export function isPositionTaken(position, playerId) {
+function isPositionTaken(position, playerId) {
   let taken = false;
   for (let i = 0; i < players.length; i++) {
     if (players[i].cuurentPosition == position && players[i].id != playerId) {
@@ -332,14 +331,26 @@ export function fillSlot(player) {
   if (slot == null) return;
   slot.dataset.active = "true";
   slot.innerHTML = `
-    <span class="inline-flex items-center justify-center h-10 w-10 border-1 p-1 rounded-full border-${player.positionColor}-500 text-${player.positionColor}-500">${player.number}</span>
-    <p class="text-${player.positionColor}-500">${player.positions}</p>
-    <p class="text-white">${player.nom}</p>`;
+           <div
+          class="flex items-center p-3 gap-4 flex-col bg-[#1a2233]/60"
+          id="${player.positions}"
+          "
+        >
+          <img class="w-15 rounded-xl" src="imgs/playerImg.jpeg" />
+          <p class="text-${player.positionColor}-500 text-xl font-bold">${player.number}</p>
+          <p class="text-${player.positionColor}-500 font-bold">${player.positions}</p>
+          <p class="text-${player.positionColor}-500 font-bold">${player.nom}</p>
+        </div>`;
 }
-
 export function clearSlot(position) {
   const slot = document.getElementById(position);
   if (slot == null) return;
-  slot.innerHTML = "";
+  slot.dataset.active = "false";
+  slot.innerHTML = `    <div
+          class="flex justify-center items-center"
+          id=""
+        >
+          <span class="bg-gray-500 p-2 w-10 h-10 rounded-full flex"></span>
+        </div>`;
   slot.dataset.active = "false";
 }

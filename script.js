@@ -27,6 +27,7 @@ import {
 //show the pop up form
 PopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.remove("hidden");
+  state.editingId = null;
 });
 //cancel the pop up form
 removePopUpFormBtn.addEventListener("click", () => {
@@ -36,6 +37,7 @@ removePopUpFormBtn.addEventListener("click", () => {
   errors.forEach((error) => {
     error.textContent = "";
   });
+  state.editingId = null;
 });
 
 //submit-btn
@@ -58,14 +60,13 @@ newPlayerForm.addEventListener("submit", (e) => {
     formNoValidMesg.textContent = "Faild";
     return;
   }
-  //
+
   if (state.editingId !== null) {
     updateExistingPlayer(state.editingId);
   } else {
     addNewPlayer();
   }
 
-  // re-render
   playersList.textContent = "";
   players.forEach((p) => playerCard(p));
 
