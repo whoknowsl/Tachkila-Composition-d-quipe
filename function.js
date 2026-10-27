@@ -21,9 +21,9 @@ import {
   errors,
   totalNumberOfPlayers,
   positionFealde,
+  numberOfPlayerInTheField,
 } from "./domElements.js";
 export const state = { editingId: null };
-console.log(positionFealde);
 //add new player
 export function addNewPlayer() {
   const nameOfPlayer = document.getElementById("nameOfPlayer").value;
@@ -144,9 +144,10 @@ export function playerCard(player) {
       player.isPlaying = true;
       fillSlot(player);
     }
-
     //3. rebuild the cards so the other selects disable the taken places
+
     refreshLocalStorage();
+    updatefieldount();
     renderingCard();
   });
 
@@ -219,6 +220,7 @@ export function playerCard(player) {
 
 export function renderingCard() {
   playersList.textContent = "";
+  //the total number of the player list
   totalNumberOfPlayers.textContent = `${players.length} joueur(s)`;
   if (players.length === 0) return;
   players.forEach((player) => {
@@ -350,14 +352,15 @@ export function fillSlot(player) {
   slot.dataset.active = "true";
   slot.innerHTML = `
            <div
-          class="flex items-center p-3 gap-4 flex-col bg-[#1a2233]/60"
+          class="flex items-center p-3 gap-3 flex"
           id="${player.positions}"
           "
         >
           <img class="w-15 rounded-xl" src="imgs/playerImg.jpeg" />
-          <p class="text-${player.positionColor}-500 text-xl font-bold">${player.number}</p>
+          <div><p class="text-${player.positionColor}-500 text-sm font-bold">${player.number}</p>
           <p class="text-${player.positionColor}-500 font-bold">${player.positions}</p>
-          <p class="text-${player.positionColor}-500 font-bold">${player.nom}</p>
+          <p class="text-${player.positionColor}-500 font-bold">${player.nom}</p></div>
+          
         </div>`;
 }
 export function clearSlot(position) {
@@ -371,4 +374,11 @@ export function clearSlot(position) {
           <span class="bg-gray-500 p-2 w-10 h-10 rounded-full flex"></span>
         </div>`;
   slot.dataset.active = "false";
+}
+export function updatefieldount() {
+  const savedTotal = localStorage.getItem("totalActivePlayer");
+  const totalActivePlayer = players.filter((player) => player.isPlaying).length;
+  localStorage.setItem("totalActivePlayer", totalActivePlayer);
+  localStorage.setItem("totalActivePlayer", JSON.stringify(totalActivePlayer));
+  numberOfPlayerInTheField.textContent = `the totla number of the player is ${totalActivePlayer}`;
 }

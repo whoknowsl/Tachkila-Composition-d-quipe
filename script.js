@@ -8,7 +8,8 @@ import {
   updateExistingPlayer,
   modifierTheplayer,
   state,
-  fillSlot
+  fillSlot,
+  updatefieldount,
 } from "./function.js";
 import {
   newPlayerForm,
@@ -92,4 +93,5 @@ players.forEach((player) => {
     fillSlot(player); // This re-renders them onto the visual terrain
   }
 });
+updatefieldount();
 renderingCard();

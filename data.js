@@ -12,48 +12,7 @@ const positions = [
   "BU - Buteur 1",
   "BU - Buteur 2",
 ];
-let players = [
-  {
-    id: 1,
-    nom: "Kylian Mbappé",
-    number: "9",
-    positions: "ATT",
-    positionColor: "red",
-    isPlaying: false,
-  },
-  {
-    id: 2,
-    nom: "Kevin De Bruyne",
-    number: "17",
-    positions: "Mil",
-    positionColor: "green",
-    isPlaying: false,
-  },
-  {
-    id: 3,
-    nom: "Virgil van Dijk",
-    number: "4",
-    positions: "Def",
-    positionColor: "blue",
-    isPlaying: false,
-  },
-  {
-    id: 4,
-    nom: "Alisson Becker",
-    number: "1",
-    positions: "GB",
-    positionColor: "yellow",
-    isPlaying: false,
-  },
-  {
-    id: 5,
-    nom: "Achraf Hakimi",
-    number: "2",
-    positions: "Def",
-    positionColor: "blue",
-    isPlaying: false,
-  },
-];
+let players = [];
 const playersKey = "players";
 
 function refreshLocalStorage() {
