@@ -55,13 +55,23 @@ let players = [
   },
 ];
 const playersKey = "players";
+
+function refreshLocalStorage() {
+  localStorage.setItem(playersKey, JSON.stringify(players));
+}
+
 function refresh() {
   const savedplayers = localStorage.getItem(playersKey);
+  if (savedplayers) {
+    const prased = JSON.parse(savedplayers);
+    players.length = 0;
+    players.push(...prased);
+  } else {
+    refreshLocalStorage();
+  }
   players = savedplayers ? JSON.parse(localStorage.getItem(playersKey)) : [];
   console.log(savedplayers);
 }
 refresh();
-function refreshLocalStorage() {
-  localStorage.setItem(players, JSON.stringify(players));
-}
+
 export { positions, players, playersKey, refreshLocalStorage, refresh };

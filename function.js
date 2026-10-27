@@ -40,8 +40,9 @@ export function addNewPlayer() {
   newPlayer.positionColor = assignColor(positionOfPlayer);
   newPlayer.cuurentPosition = "Surlebanc";
   newPlayer.isPlaying = false;
+
   players.push(newPlayer);
-  localStorage.setItem(playersKey, JSON.stringify(players));
+  refreshLocalStorage();
   renderingCard();
   newPlayerForm.reset();
   newPlayerForm.classList.toggle("hidden");
@@ -124,7 +125,6 @@ export function playerCard(player) {
 
     //the new place already has another player: refuse
     if (res != "Surlebanc" && isPositionTaken(res, player.id)) {
-      alert("This position is already taken by another player.");
       renderingCard(); //rebuild the select with the old value
       return;
     }
@@ -209,18 +209,18 @@ export function playerCard(player) {
     if (optionId != "Surlebanc" && isPositionTaken(optionId, player.id)) {
       option.disabled = true;
     }
-    infoPlayer.append(h3, p);
-    btnDiv.append(modifierBtn, deletBtn);
-    div.append(span, infoPlayer, btnDiv);
-    li.append(hr, div, select);
-    playersList.append(li);
   }
+  infoPlayer.append(h3, p);
+  btnDiv.append(modifierBtn, deletBtn);
+  div.append(span, infoPlayer, btnDiv);
+  li.append(hr, div, select);
+  playersList.append(li);
 }
 
 export function renderingCard() {
-  if (players.length === 0) return;
   playersList.textContent = "";
   totalNumberOfPlayers.textContent = `${players.length} joueur(s)`;
+  if (players.length === 0) return;
   players.forEach((player) => {
     playerCard(player);
   });
@@ -228,15 +228,15 @@ export function renderingCard() {
 
 export function deletfunc(p) {
   p = Number(p);
-  const player = players.findIndex((player) => {
+  const playerIndx = players.findIndex((player) => {
     return player.id == p;
   });
-  if (player == -1) return;
-  if (players[player].isPlaying) {
-    clearSlot(players[player].cuurentPosition);
+  if (playerIndx == -1) return;
+  if (players[playerIndx].isPlaying) {
+    clearSlot(players[playerIndx].cuurentPosition);
   }
-  players.splice(player, 1);
-  refresh();
+  players.splice(playerIndx, 1);
+  refreshLocalStorage();
   totalNumberOfPlayers.textContent = `${players.length} joueur(s)`;
   playersList.textContent = "";
   players.forEach((player) => {

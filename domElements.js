@@ -10,6 +10,9 @@ export const errorNumber = document.getElementById("errorNumber");
 export const formNoValidMesg = document.getElementById("formNoValidMesg");
 export const formValidMsg = document.getElementById("formValidMsg");
 export const errors = document.querySelectorAll(".errors");
+export const numberOfPlayerInTheField = document.getElementById(
+  "numberOfPlayerInThefield",
+);
 export const totalNumberOfPlayers = document.querySelector(
   "#totalNumPlayers  p",
 );

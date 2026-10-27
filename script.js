@@ -8,6 +8,7 @@ import {
   updateExistingPlayer,
   modifierTheplayer,
   state,
+  fillSlot
 } from "./function.js";
 import {
   newPlayerForm,
@@ -24,6 +25,7 @@ import {
   errors,
   totalNumberOfPlayers,
   positionFealde,
+  numberOfPlayerInTheField,
 } from "./domElements.js";
 //show the pop up form
 PopUpFormBtn.addEventListener("click", () => {
